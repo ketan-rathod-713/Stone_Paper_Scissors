@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap');
+
+.homePage {
+    height: 100vh;
+    position: relative;
+}
+
+.bgHome{
+    z-index: -1;
+    object-fit: cover;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    transition: all;
+    animation: BackgroundImage 2s 100ms infinite ease-in alternate-reverse;
+}
+
+@keyframes BackgroundImage {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.2);
+    }
+}
+
+.homestoneDiv{
+    font-family: 'Bungee Shade', cursive;
+    color: #7843E6;
+    font-size: 50px;
+    position: absolute;
+    left: 30%;
+    animation: StoneDiv 7s ease-in-out 10s infinite;
+    display: flex;
+    align-items: center;
+    text-shadow: 1px 3px 3px #3ae9e1;
+}
+
+@keyframes StoneDiv {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(10deg);
+        text-shadow: 2px 1px 3px #3ae9e1;
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+    75% {
+        transform: rotate(-10deg);
+    }
+  }
+@keyframes PaperDiv {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(6deg);
+        text-shadow: 2px 1px 3px #3ae9e1;
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+    75% {
+        transform: rotate(-10deg);
+    }
+  }
+@keyframes ScissorsDiv {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(5deg);
+        text-shadow: 2px 1px 3px #3ae9e1;
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+    75% {
+        transform: rotate(-10deg);
+    }
+  }
+
+.homepaperDiv{
+    font-family: 'Bungee Shade', cursive;
+    color: #7843E6;
+    font-size: 50px;
+    position: absolute;
+    top: 27%;
+    left: 4%;
+    animation: PaperDiv 5s ease-in-out 100ms infinite;
+    display: flex;
+    align-items: center;
+    text-shadow: 1px 3px 3px #3ae9e1;
+}
+
+.homepaperSVG{
+    height: 100px;
+    margin: 0px 20px;
+    filter: invert(94%) sepia(90%) saturate(1928%) hue-rotate(147deg) brightness(95%) contrast(88%);
+}
+
+.homescissorsDiv{
+    font-family: 'Bungee Shade', cursive;
+    color: #7843E6;
+    font-size: 50px;
+    position: absolute;
+    bottom: 10%;
+    left: 10%;
+    animation: ScissorsDiv 6s ease-in-out 5s infinite;
+    display: flex;
+    align-items: center;
+    transition: all 2s;
+    text-shadow: 1px 3px 3px #3ae9e1;
+}
+
+
+.homestoneSVG{
+    height: 100px;
+    margin: 0px 20px;
+    filter: invert(94%) sepia(90%) saturate(1928%) hue-rotate(147deg) brightness(95%) contrast(88%);
+}
+.homescissorsSVG{
+    height: 100px;
+    margin: 0px 20px;
+    filter: invert(94%) sepia(90%) saturate(1928%) hue-rotate(147deg) brightness(95%) contrast(88%);
+}
+
+
+.homebuttons{
+    position: absolute;
+    bottom: 10%;
+    right: 5%;
+    display: flex;
+    flex-direction: column;
+}
+
+.homebuttons button{
+    padding: 12px 70px;
+    margin-top: 25px;
+    background-image: linear-gradient(to right, #5170ff , #7843E6);
+    border: 1px solid #fd2cfd;
+    box-shadow:2px 2px 1px #fd2cde;
+    color: rgb(255, 255, 255);
+    transition: all 100ms;
+    cursor: pointer;
+    font-family: 'Bungee Shade', cursive;
+    font-size: 19px;
+    width: 100%;
+}
+
+
+.homebuttons Link{
+    width: 100%;
+}
+
+.homebuttons button:hover{
+    color: rgb(0, 225, 255);
+    background-image: linear-gradient(to right,  #7843E6 ,#5170ff);
+}
+
+#enterNameInput{
+    padding: 7px 15px;
+    font-size: 24px;
+    background-color: transparent;
+    border: 1px solid rgb(255, 0, 234);
+    color: white;
+}
+#enterNameInput :focus{
+    border: 1px solid rgb(255, 0, 234);
+}
+
+#enterNameInputLabel{
+    color: rgb(190, 190, 190);
+    text-align: right;
+}
