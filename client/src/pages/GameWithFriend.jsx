@@ -42,7 +42,8 @@ const GameWithFriend = () => {
     yourName: "",
     opponentName: "",
     messageText: "",
-    gameCounter: 10
+    gameCounter: 10,
+    opponentSVG: NumberToSVG[5]
   })
   const [timer, setTimer] = useState(10)
   const [messages, setMessages] = useState([
@@ -174,10 +175,21 @@ const GameWithFriend = () => {
 
       console.log(message)
 
+
       setGameState(prevState=>({
         ...prevState,
-        gameCounter: optionCount
+        gameCounter: optionCount,
+        opponentSVG: NumberToSVG[opponentSelection]
       }))
+
+      socket.on("opponentSelectedOption", ()=>{
+        console.log("opponent selected something");
+        
+        setGameState(prevState=>({
+          ...prevState,
+          opponentSVG: NumberToSVG[4] // 4 is for checkmark
+        }))
+      })
 
       setMessages(prevState=>[
         ...prevState,
@@ -449,7 +461,7 @@ const GameWithFriend = () => {
             <div className="computerGameOptionOpponent">
                     {/* opponent selected option */}
                     <div className="computerOpponentSelectedDiv">
-                        <img className="computerOptionImg" src={Stone} alt="" />
+                        <img className="computerOptionImg" src={gameState.opponentSVG} alt="" />
                     </div>
             </div>
         </div>

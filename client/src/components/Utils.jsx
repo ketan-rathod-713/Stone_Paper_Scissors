@@ -2,11 +2,14 @@ import Stone from "../gameIcons/stones.svg"
 import Paper from "../gameIcons/paper.svg"
 import Scissors from "../gameIcons/scissors.svg"
 import Star from "../gameIcons/star.svg"
+import CheckMark from "../gameIcons/checkMark.svg"
 
 const NumberToSVG = {
     1: Stone,
     2: Paper,
-    3: Scissors
+    3: Scissors,
+    4: CheckMark,
+    5: Star
   }
   
 

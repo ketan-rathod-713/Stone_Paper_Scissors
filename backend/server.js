@@ -249,17 +249,11 @@ io.on("connection", (socket)=>{
         // match the timer
         const totalPlayersSelected = allRooms[socket.gameState.roomId]["totalPlayersSelected"]
 
-        if(totalPlayersSelected === 1){ // initally 0
-            // do nothing ig
-        } else if(totalPlayersSelected === 2){ // after one player selected
-            allRooms[socket.gameState.roomId]["optionCount"]--
-            allRooms[socket.gameState.roomId]["totalPlayersSelected"] = 0 // now they can repeat selecting options  
-            
-            const players = Object.keys(currentRoom)
-            console.log(players);
+       
 
-            
 // KNOW CURRENT PLAYER AND OPPONENT PLAYERS
+            const players = Object.keys(currentRoom)
+
             let currentPlayerIndex;
             let opponentPlayerIndex;
 
@@ -270,6 +264,18 @@ io.on("connection", (socket)=>{
                 currentPlayerIndex = 1
                 opponentPlayerIndex = 0
             }
+
+// FIRST GUY
+        if(totalPlayersSelected === 1){ // initally 0
+            
+// OPPONENT SELECTED MESSAGE TICK MARK ONLY EVENT ( DON'T SEND DATA)
+            socket.to(players[opponentPlayerIndex]).emit("opponentSelectedOption")
+            
+        } else if(totalPlayersSelected === 2){ // after one player selected
+            allRooms[socket.gameState.roomId]["optionCount"]--
+            allRooms[socket.gameState.roomId]["totalPlayersSelected"] = 0 // now they can repeat selecting options  
+            
+            
            
 // GAME LOGIC TO FIND SELECTION ANS
 const totalOptionCount = allRooms[socket.gameState.roomId]["totalOptionCount"]
@@ -297,6 +303,9 @@ const opponentPlayerResult = stonePaperScissor(opponentPlayerSelection, currentP
                     opponentSelection: currentPlayerSelection,
                     optionCount: allRooms[socket.gameState.roomId]["optionCount"]
                 })
+
+// SEND EACH OTHER'S SELECTIONS OPPONENT // SEND IT WILL ABOVE OPPONENT SELECTION RESULT
+// NO NEED OF EXTRA EVENT
 
 
 
