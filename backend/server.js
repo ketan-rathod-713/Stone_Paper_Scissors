@@ -8,6 +8,7 @@ const app = express();
 const server = http.createServer(app);
 const port = process.env.PORT || 4000
 import { Server } from 'socket.io';
+import {stonePaperScissor} from './utils/GameLogic.js'
 
 const clientOrigin = "http://localhost:3000";
 
@@ -122,7 +123,8 @@ io.on("connection", (socket)=>{
             allRooms[socket.gameState.roomId] = {}
             allRooms[socket.gameState.roomId][socket.id] = {...allRooms[socket.gameState.roomId][socket.id] ,
                 userName: socket.gameState.yourName,
-                socketId: socket.id
+                socketId: socket.id,
+                selections: []
               }
               console.log("ALL ROOMS");
               console.log(allRooms);
@@ -136,25 +138,18 @@ io.on("connection", (socket)=>{
 
             allRooms[socket.gameState.roomId][socket.id] = {...allRooms[socket.gameState.roomId][socket.id] ,
                 userName: socket.gameState.yourName,
-                socketId: socket.id
+                socketId: socket.id,
+                selections: []
               }
-            allRooms["timer"] = 10
+            allRooms[socket.gameState.roomId]["timer"] = 10
+            allRooms[socket.gameState.roomId]["totalOptionCount"] = 5 // THIS VALUE IS CONSTANT // FOR LOGIC
+            allRooms[socket.gameState.roomId]["optionCount"] = 5
+            allRooms[socket.gameState.roomId]["totalPlayersSelected"] = 0
 
               const currentRoom = allRooms[socket.gameState.roomId];
-              console.log("first");
+              console.log("current Room");
               
               console.log(currentRoom);
-              
-            //   const user1Id = currentRoom[0].socketId 
-            //   const user2Id = currentRoom[1].socketId
-
-              // send timer to both
-
-            //   while(allRooms[socket.gameState.roomId]["timer"] !== 0){
-            //     console.log("wow")
-
-            //     allRooms[socket.gameState.roomId]["timer"] = allRooms[socket.gameState.roomId]["timer"] - 1
-            //   }
 
             const Timer = 10
             let counter = Timer
@@ -171,11 +166,17 @@ io.on("connection", (socket)=>{
                 if(times === 0) {
 
                     socket.in(socket.gameState.roomId).emit("gameStarted", {
-                        totalCounts: 5
+                        totalCounts: allRooms[socket.gameState.roomId]["optionCount"]
                     })
                     socket.emit("gameStarted", {
-                        totalCounts: 5
+                        totalCounts: allRooms[socket.gameState.roomId]["optionCount"]
                     })
+
+                    console.log("ALL ROOMS")
+                    console.log(
+                    allRooms
+                    );
+                    
                     
                   return;
                 }
@@ -185,6 +186,8 @@ io.on("connection", (socket)=>{
                   // Do something here
                   console.log('Doing a request');
                   console.log(socket.gameState.roomId);
+
+                  
                   
                   socket.in(socket.gameState.roomId).emit("timer", {
                     timer: counter
@@ -193,9 +196,11 @@ io.on("connection", (socket)=>{
                     timer: counter
                 })
 
+
                   counter = counter - 1
+                //   allRooms[socket.gameState.roomId]["timer"] = counter // at last it will be 0
                   waitAndDo(times-1);
-                }, 2000);
+                }, 300);
               }
 
               console.log("ALL ROOMS");  
@@ -231,15 +236,98 @@ io.on("connection", (socket)=>{
         }
     })
 
-    socket.emit("startTimer", ()=>{ // start timer of 10 sec before actual game starts. need to send to both players in room
+    socket.on("optionSelect", (message)=>{
+        console.log(message);
+        console.log(allRooms[socket.gameState.roomId])
+        const {optionSelected, optionNumber} = message
+        const currentRoom = allRooms[socket.gameState.roomId]
 
-    })
+        allRooms[socket.gameState.roomId][socket.id]["selections"].push(optionSelected)
+        allRooms[socket.gameState.roomId]["totalPlayersSelected"]++
+        console.log(allRooms[socket.gameState.roomId]);
+        
+        // match the timer
+        const totalPlayersSelected = allRooms[socket.gameState.roomId]["totalPlayersSelected"]
 
-    socket.emit("selectOneOption")
+        if(totalPlayersSelected === 1){ // initally 0
+            // do nothing ig
+        } else if(totalPlayersSelected === 2){ // after one player selected
+            allRooms[socket.gameState.roomId]["optionCount"]--
+            allRooms[socket.gameState.roomId]["totalPlayersSelected"] = 0 // now they can repeat selecting options  
+            
+            const players = Object.keys(currentRoom)
+            console.log(players);
 
-    socket.on("selectedOneOption" , ()=>{
-        // take this selected option and see if other user has done the same 
-    })
+            
+// KNOW CURRENT PLAYER AND OPPONENT PLAYERS
+            let currentPlayerIndex;
+            let opponentPlayerIndex;
+
+            if(players[0] == socket.id){
+                currentPlayerIndex = 0 
+                opponentPlayerIndex = 1
+            } else {
+                currentPlayerIndex = 1
+                opponentPlayerIndex = 0
+            }
+           
+// GAME LOGIC TO FIND SELECTION ANS
+const totalOptionCount = allRooms[socket.gameState.roomId]["totalOptionCount"]
+
+const iterator = totalOptionCount  - allRooms[socket.gameState.roomId]["optionCount"] - 1
+console.log("iterator ", iterator);
+const currentPlayerSelection = allRooms[socket.gameState.roomId][socket.id]["selections"][iterator]
+const opponentPlayerSelection = allRooms[socket.gameState.roomId][players[opponentPlayerIndex]]["selections"][iterator]
+
+const currentPlayerResult = stonePaperScissor(currentPlayerSelection, opponentPlayerSelection)
+const opponentPlayerResult = stonePaperScissor(opponentPlayerSelection, currentPlayerSelection)
+
+            // CURRENT PLAYER
+                socket.emit("optionSelectionResult", {
+                    result: currentPlayerResult, // either 1, -1 or 0
+                    mySelection: currentPlayerSelection,
+                    opponentSelection: opponentPlayerSelection,
+                    optionCount: allRooms[socket.gameState.roomId]["optionCount"]
+                })
+
+            // OPPONENT PLAYER
+                socket.to(players[opponentPlayerIndex]).emit("optionSelectionResult", {
+                    result: opponentPlayerResult, // either 1, -1 or 0
+                    mySelection: opponentPlayerSelection ,
+                    opponentSelection: currentPlayerSelection,
+                    optionCount: allRooms[socket.gameState.roomId]["optionCount"]
+                })
+
+
+
+// LOGIC FOR GAME OVER
+                if(allRooms[socket.gameState.roomId]["optionCount"] === 0){
+                    // GAME OVER // SEND RESULT TO BOTH // if 2nd player selects
+                    setTimeout(() => {
+                        // CURRENT PLAYER
+                        socket.emit("gameOver", {
+                            mySelections : allRooms[socket.gameState.roomId][socket.id]["selections"],
+                            opponentSelections: [1, 2, 3],
+                            result: 1 // you win,
+                        })
+
+                        // OPPONENT PLAYER
+                        socket.to(players[opponentPlayerIndex]).emit("gameOver", {
+                            mySelections : allRooms[socket.gameState.roomId][socket.id]["selections"],
+                            opponentSelections: [1, 2, 3],
+                            result: 0 // you win,
+                        })
+                    }, 1000);
+                }
+
+
+                
+            }
+
+            
+        })
+
+   
 
 
     socket.on("createNewGame", (message)=>{

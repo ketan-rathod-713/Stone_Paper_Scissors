@@ -78,10 +78,20 @@ const GameWithFriend = () => {
   const handleSelection = (event)=>{
         const selected = (event.currentTarget.id).substring(11)
         const selectedElement = event.target
+
+        console.log(selected);
+        
         selectedElement.classList.add("computerSelectedOption")
         
         // updating state for useEffect to do some work related to sideEffects
-        setSelected(true)
+        setSelected(true) // Now ig no one can do anything
+
+        socket.emit("optionSelect", {
+          optionSelected: OptionToNumber[selected], // send in number formate
+          optionNumber: gameState.gameCounter
+        })
+
+        // setSelected(false)
         // setCounter(prevCount => prevCount - 1)
         // setYourSelection(OptionToNumber[selected])
         // setSelectedElement(selectedElement)
@@ -153,6 +163,46 @@ const GameWithFriend = () => {
       moveToFourthPage()
     })
 
+    socket.on("gameOver", (message)=>{
+      const {mySelections, opponentSelections, result} = message
+
+      moveToFifthPage()
+    })
+
+    socket.on("optionSelectionResult", (message)=>{
+      const {result, opponentSelection, mySelection, optionCount} = message
+
+      console.log(message)
+
+      setGameState(prevState=>({
+        ...prevState,
+        gameCounter: optionCount
+      }))
+
+      setMessages(prevState=>[
+        ...prevState,
+        {
+          userName: "System Generated",
+          messageText: "I selected "+ mySelection + " and opponent Selected "+ opponentSelection,
+          timeHours: new Date().getHours(),
+          timeMinutes: new Date().getMinutes()
+        }
+      ])
+      setMessages(prevState=>[
+        ...prevState,
+        {
+          userName: "System Generated",
+          messageText: "WON!!",
+          timeHours: new Date().getHours(),
+          timeMinutes: new Date().getMinutes()
+        }
+      ])
+
+      setTimeout(() => {
+        setSelected(false)
+      }, 1000);
+    })
+
     socket.on("receiveMessage", (message)=>{
       console.log("message recieved", message);
       setMessages(prevState=>[
@@ -218,6 +268,15 @@ const GameWithFriend = () => {
       thirdPage: false,
       fourthPage: true,
       fifthPage: false
+      })
+  }
+  const moveToFifthPage = ()=>{
+    setPages({
+      firstPage: false,
+      secondPage: false,
+      thirdPage: false,
+      fourthPage: false,
+      fifthPage: true
       })
   }
 
@@ -395,6 +454,14 @@ const GameWithFriend = () => {
             </div>
         </div>
          </div>
+      </>
+    }
+
+
+
+    {
+      pages.fifthPage && <>
+        <h1>Final Result page</h1>
       </>
     }
   </div>;
