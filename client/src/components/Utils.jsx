@@ -1,3 +1,15 @@
+import Stone from "../gameIcons/stones.svg"
+import Paper from "../gameIcons/paper.svg"
+import Scissors from "../gameIcons/scissors.svg"
+import Star from "../gameIcons/star.svg"
+
+const NumberToSVG = {
+    1: Stone,
+    2: Paper,
+    3: Scissors
+  }
+  
+
 // Game logic for two players
 const stonePaperScissor = (selectedA, selectedB)=>{ // selectedA is user
     if(selectedA === 0 ){
@@ -54,4 +66,4 @@ const calculateFinalResultFromSelectionArray = (arr)=>{
     return [result, win, loose, draw]
 }
 
-export {stonePaperScissor, OptionToNumber, NumberToOption, resultOutputToTextFormate, calculateFinalResultFromSelectionArray}
+export {stonePaperScissor, OptionToNumber, NumberToOption, resultOutputToTextFormate, calculateFinalResultFromSelectionArray, NumberToSVG}

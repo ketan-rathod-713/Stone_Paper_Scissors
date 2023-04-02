@@ -1,19 +1,33 @@
 import React, { useContext, useEffect , useState} from "react";
 import "./GameWithComputer.css"
 import BgImage from "../backgroundImages/bg2.jpg"
-import BgImageVs from "../backgroundImages/bg3.jpg"
 import Stone from "../gameIcons/stones.svg"
 import Paper from "../gameIcons/paper.svg"
 import Scissors from "../gameIcons/scissors.svg"
 import Star from "../gameIcons/star.svg"
-import { GlobalContext } from "../globalContext/GlobalContext";
 import { NumberToOption, stonePaperScissor, OptionToNumber, resultOutputToTextFormate , calculateFinalResultFromSelectionArray} from "../components/Utils"; // reducing code is good practice
+import Modal from 'react-modal'
 
 // here selectedA and selectedB are integers
 // it can be range from 1, 2, 3 only ( is user doesnt select then 0 == loose by default)
 // 1 - stone
 // 2 - paper
 // 3 - scissors
+
+const customStyles = {
+    content: {
+      top: "0%",
+      left: "0%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "0px",
+    //   transform: "translate(-50%, -50%)",
+      backgroundColor: "white",
+      width: "100vw",
+      height: "100vh",
+      backgroundColor: "white"
+    },
+  };
 
 const NumberToSVG = {
     1: Stone,
@@ -29,6 +43,7 @@ const GameWithComputer = (props) => {
     const [selected, setSelected] = useState(false)
     const [counter, setCounter] = useState(initialCount)
     const [isGameOver, setIsGameOver] = useState(false)
+    const [modalOpen, setModalOpen] = useState(false);
 
     // change after each selection
     const [opponentSVGselection, setOpponentSVGselection] = useState()
@@ -70,7 +85,7 @@ const GameWithComputer = (props) => {
             if(selectedElement){
                 selectedElement.classList.remove("computerSelectedOption")
             }
-        }, 1000);
+        }, 7000);
 
         // for isGameOver
         if(counter <= 0){
@@ -113,6 +128,19 @@ const GameWithComputer = (props) => {
         <h1 className="yourName">{yourName}</h1>
         <h1 className="opponentName">Computer</h1>
         <button className="startGameBtn" onClick={()=> setinitial(false)}>Start Game</button>
+
+     
+      <button onClick={setModalOpen}>Game Settings</button>
+      <Modal
+        isOpen={modalOpen}
+        onRequestClose={() => setModalOpen(false)}
+        style={customStyles}
+        className={"ModalSetting"}
+      >
+        <div>Login/Signup</div>
+
+        <button onClick={() => setModalOpen(false)}>Close Modal</button>
+      </Modal>
         </>
     }
 

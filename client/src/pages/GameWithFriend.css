@@ -1,0 +1,214 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.inputCodeForGame{
+    display: flex;
+    justify-content: space-around;
+    margin: 30px 0px;
+}
+
+.inputCodeForGame input {
+    padding: 7px 15px;
+    font-size: 30px;
+    background-color: transparent;
+    color: white;
+    width: 100%;
+    text-align: center;
+    border: 1px dashed red;
+}
+
+.inputCodeForGame input :active {
+    border: none;
+}
+.inputCodeForGame input :focus {
+    border: none;
+}
+.inputCodeForGameDiv{
+    margin: 5px;
+    height: 50px;
+    width: 50px;
+    background-color: blue;
+}
+
+.FriendCreateNewGame{
+
+}
+
+.FriendJoinGame{
+
+}
+
+.FriendButton{
+    padding: 12px 70px;
+    background-image: linear-gradient(to right, #5170ff , #7843E6);
+    border: 1px solid #fd2cfd;
+    box-shadow:2px 2px 1px #fd2cde;
+    color: rgb(255, 255, 255);
+    transition: all 100ms;
+    cursor: pointer;
+    font-family: 'Bungee Shade', cursive;
+    font-size: 19px;
+    width: 100%;
+}
+
+.FriendButton :hover{
+    color: rgb(0, 225, 255);
+    background-color: blue;
+    background-image: linear-gradient(to right,  #7843E6 ,#5170ff);
+}
+
+.FriendSignUpForm{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 10%;
+    right: 5%;
+    width: 500px;
+}
+
+
+
+.friendShareCodeHeader{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 80px;
+}
+
+.friendShareCodeHeader p{
+    font-size: 30px;
+    color: white;
+}
+
+.friendShareCodeHeader h1{
+    font-size: 50px;
+    color: white;
+    font-weight: bold;
+    letter-spacing: 30px;
+    margin-top: 10px;
+}
+
+.WaitingForConnection {
+    margin-top: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.WaitingForConnection p{
+    font-size: 40px;
+    color: rgb(186, 184, 184);
+}
+
+
+
+
+.FriendThirdPageConnection {
+    margin-top: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.FriendThirdPageConnection h3 {
+    font-size: 25px;
+    color: greenyellow;
+    margin: 20px 0;
+}
+.FriendThirdPageConnection h2 {
+    font-size: 50px;
+    color: greenyellow;
+    margin: 20px 0;
+}
+.FriendThirdPageConnection h1 {
+    font-size: 70px;
+    color: rgb(184, 184, 184);
+    margin: 20px 0;
+}
+
+.friendChatting{
+    /* border: 1px dashed red; */
+    width: 28%;
+    background-color: transparent;
+    height: 100%;
+    overflow-y: scroll;
+    padding: 15px 15px -5px 15px;
+
+    position: relative;
+}
+
+.friendChatting::-webkit-scrollbar {
+    display: none;
+  }
+
+.messagesBox{
+    display: flex;
+    flex-direction: column;
+    /* overflow-y: scroll; */
+
+}
+.messageSenderName{
+    color: palevioletred;
+}
+
+.messageAndTime{
+    color: white;
+    display: flex;
+    justify-content: space-between;
+}
+
+.messageItem{
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background-color: #3358fd;
+    margin: 10px 0;
+}
+
+.messageTime{
+
+
+}
+
+.messageText {
+
+}
+
+.friendSendMessageBox{
+    display: flex;
+    position: sticky;
+    bottom: 0;
+    background-color: none;
+}
+
+.friendSendMessageBox input{
+    flex: 8;
+    padding: 10px 20px;
+    font-size: 17px;
+    background-color: #2249f7;
+    font-size: 23px;
+    color: white;
+    width: 100%;
+    text-align: left;
+}
+
+.friendSendMessageBox button{
+    flex: 2;
+    padding: 12px 10px;
+    background-image: linear-gradient(to right, #5170ff , #7843E6);
+    border: 1px solid #fd2cfd;
+    box-shadow:2px 2px 1px #fd2cde;
+    color: rgb(255, 255, 255);
+    transition: all 100ms;
+    cursor: pointer;
+    font-family: 'Bungee Shade', cursive;
+    font-size: 19px;
+}

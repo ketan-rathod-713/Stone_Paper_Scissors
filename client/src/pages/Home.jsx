@@ -4,7 +4,7 @@ import BgImage from "../backgroundImages/bg2.jpg"
 import Stone from "../gameIcons/stones.svg"
 import Paper from "../gameIcons/paper.svg"
 import Scissors from "../gameIcons/scissors.svg"
-import gameMusic from "../gameMusic.mp3"
+// import gameMusic from "../gameMusic.mp3"
 import { Link } from "react-router-dom";
 
 
@@ -28,7 +28,7 @@ export class Home extends Component {
 }
 
   componentDidUpdate(prevProps, prevState){
-    if(prevState.yourName != this.state.yourName)
+    if(prevState.yourName !== this.state.yourName)
       localStorage.setItem('yourName', JSON.stringify(this.state.yourName))
   }
 
