@@ -52,7 +52,7 @@ export class Home extends Component {
     <img className="homepaperSVG" src={Paper} alt="" />
     </div>
     <div className="homebuttons">
-    <label htmlFor="enterNameInput" id="enterNameInputLabel">Name</label>
+    <label htmlFor="enterNameInput" id="enterNameInputLabel">Enter Your Name</label>
     <input type="text" id="enterNameInput" placeholder="Enter Your Name" value={yourName} onChange={(e)=> this.setState({yourName : e.target.value})}
     />
     <Link to={"/gameWithComputer"} state={yourName}><button>Play With Computer</button></Link>

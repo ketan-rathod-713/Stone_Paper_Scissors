@@ -121,7 +121,8 @@ io.on("connection", (socket)=>{
             console.log(Room);
             allRooms[socket.gameState.roomId] = {}
             allRooms[socket.gameState.roomId][socket.id] = {...allRooms[socket.gameState.roomId][socket.id] ,
-                userName: socket.gameState.yourName
+                userName: socket.gameState.yourName,
+                socketId: socket.id
               }
               console.log("ALL ROOMS");
               console.log(allRooms);
@@ -134,8 +135,69 @@ io.on("connection", (socket)=>{
             console.log(Room);
 
             allRooms[socket.gameState.roomId][socket.id] = {...allRooms[socket.gameState.roomId][socket.id] ,
-                userName: socket.gameState.yourName
+                userName: socket.gameState.yourName,
+                socketId: socket.id
               }
+            allRooms["timer"] = 10
+
+              const currentRoom = allRooms[socket.gameState.roomId];
+              console.log("first");
+              
+              console.log(currentRoom);
+              
+            //   const user1Id = currentRoom[0].socketId 
+            //   const user2Id = currentRoom[1].socketId
+
+              // send timer to both
+
+            //   while(allRooms[socket.gameState.roomId]["timer"] !== 0){
+            //     console.log("wow")
+
+            //     allRooms[socket.gameState.roomId]["timer"] = allRooms[socket.gameState.roomId]["timer"] - 1
+            //   }
+
+            const Timer = 10
+            let counter = Timer
+            socket.in(socket.gameState.roomId).emit("timerStarted", {
+                timer: Timer
+            })
+            socket.emit("timerStarted", {
+                timer: Timer
+            })
+
+            waitAndDo(Timer)
+
+            function waitAndDo(times) {
+                if(times === 0) {
+
+                    socket.in(socket.gameState.roomId).emit("gameStarted", {
+                        totalCounts: 5
+                    })
+                    socket.emit("gameStarted", {
+                        totalCounts: 5
+                    })
+                    
+                  return;
+                }
+              
+                setTimeout(function() {
+              
+                  // Do something here
+                  console.log('Doing a request');
+                  console.log(socket.gameState.roomId);
+                  
+                  socket.in(socket.gameState.roomId).emit("timer", {
+                    timer: counter
+                  })
+                  socket.emit("timer", {
+                    timer: counter
+                })
+
+                  counter = counter - 1
+                  waitAndDo(times-1);
+                }, 2000);
+              }
+
               console.log("ALL ROOMS");  
               console.log(allRooms);
             // socket.emit("gameTimer")
@@ -145,7 +207,18 @@ io.on("connection", (socket)=>{
             console.log(allSockets[0].gameState);
             console.log(allSockets[1].gameState);
             
-        }
+
+            // NOW START THE GAME FOR 10 Options
+            // Should I run loop here or recursion like that .. yes it would be easy44
+
+            // dont run it here it will run first
+            // socket.in(socket.gameState.roomId).emit("gameStarted", {
+            //     totalCounts: 5
+            // })
+            // socket.emit("gameStarted", {
+            //     totalCounts: 5
+            // })
+                 }
         
         if(sizeOfRoom === 2){
             console.log("start game timer");
@@ -162,14 +235,21 @@ io.on("connection", (socket)=>{
 
     })
 
-    socket.emit("gameStarted", ()=>{
-        // tell client that game is started and then let server asks response from both the clients
-    })
-
     socket.emit("selectOneOption")
 
     socket.on("selectedOneOption" , ()=>{
         // take this selected option and see if other user has done the same 
+    })
+
+
+    socket.on("createNewGame", (message)=>{
+        const randomRoomCode = 100000 + Math.floor(Math.random() * 900000)
+
+        // JOIN THIS ROOM // INITIALLY IT WILL NOT CAUSE AN ERROR of selecting wrong room
+    
+        socket.emit("createNewGame", {
+            roomId : randomRoomCode
+        })
     })
 
 
@@ -190,10 +270,6 @@ io.on("connection", (socket)=>{
         });
     })
 
-    socket.emit("receiveMessage", {
-        // let client recieve the messages on time
-    })
-
     socket.on("disconnecting", ()=>{
         const roomId = socket.gameState.roomId
 
@@ -204,6 +280,11 @@ io.on("connection", (socket)=>{
         } 
         else if(roomSize == 2){
             delete allRooms[roomId][socket.id]
+
+            socket.to(roomId).emit("error", {
+                type: "userLeft",
+                message: "An Opponent Left"
+            })
         }
     })
     // for disconnecting

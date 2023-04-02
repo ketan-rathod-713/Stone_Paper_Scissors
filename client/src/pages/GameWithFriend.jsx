@@ -1,4 +1,4 @@
-import React, { useContext, useEffect , useState} from "react"; 
+import React, { useContext, useEffect , useState, useRef} from "react"; 
 import BgImage from "../backgroundImages/bg2.jpg"
 import Stone from "../gameIcons/stones.svg"
 import Paper from "../gameIcons/paper.svg"
@@ -7,6 +7,8 @@ import Star from "../gameIcons/star.svg"
 import {NumberToSVG ,NumberToOption, stonePaperScissor, OptionToNumber, resultOutputToTextFormate , calculateFinalResultFromSelectionArray} from "../components/Utils"; // reducing code is good practice
 import "./GameWithFriend.css"
 import socketIO from 'socket.io-client';
+import ReactLoading from 'react-loading';
+import AlertComponent from "../components/AlertComponent";
 
 // here selectedA and selectedB are integers
 // it can be range from 1, 2, 3 only ( is user doesnt select then 0 == loose by default)
@@ -39,9 +41,10 @@ const GameWithFriend = () => {
   const [gameState, setGameState] = useState({
     yourName: "",
     opponentName: "",
-    messageText: ""
+    messageText: "",
+    gameCounter: 10
   })
-  
+  const [timer, setTimer] = useState(10)
   const [messages, setMessages] = useState([
     {
       userName: "Ketan Rathod",
@@ -113,6 +116,43 @@ const GameWithFriend = () => {
 
     // all listeners are here
 
+    socket.on("createNewGame", (message)=>{
+      const roomId = message.roomId + "" // IMP - THERE IS DIFFERENCE BETWEEN NUMBER AND STRING
+      setCode(prevState => roomId)
+
+     
+      // moveToSecondPage()
+    })
+
+    socket.on("timerStarted", (message)=>{
+      const totalTimeCounter = message.timer 
+
+      setTimer(totalTimeCounter)
+      console.log("Timer started");
+      
+      moveToThirdPage()
+    })
+
+    socket.on("timer", (message)=>{
+      const timer = message.timer 
+
+      console.log(timer);
+      
+      
+      setTimer(prevState => timer)
+    })
+
+    socket.on("gameStarted", (messages)=>{
+      const totalCounts = messages.totalCounts 
+      
+      setGameState(prevState => ({
+        ...prevState,
+        gameCounter : totalCounts
+      }))
+
+      moveToFourthPage()
+    })
+
     socket.on("receiveMessage", (message)=>{
       console.log("message recieved", message);
       setMessages(prevState=>[
@@ -120,6 +160,22 @@ const GameWithFriend = () => {
          message
       ])
     })
+
+
+    socket.on("error", (message)=>{
+      if(message.type === "userLeft"){
+        setMessages(prevState=> [
+          ...prevState,
+          {
+            userName: "System Generated",
+            messageText: message.message,
+            timeHours: new Date().getHours(),
+            timeMinutes: new Date().getMinutes(),
+          }
+        ])
+      }
+    })
+
     return () => {
       console.log("cleanup function");
       
@@ -129,7 +185,11 @@ const GameWithFriend = () => {
   const createNewGame = ()=>{
     console.log("create new game");
     
-    moveToSecondPage()
+    socket.emit("createNewGame", {
+      yourName: gameState.yourName
+    })
+
+    // moveToSecondPage()
   }
 
   const moveToSecondPage = ()=>{
@@ -164,12 +224,14 @@ const GameWithFriend = () => {
   const joinGame = ()=>{
     console.log("join new game");
 
+    if(!code) return
+
     socket.emit("joinGame", {
       roomId: code,
       yourName: gameState.yourName
     })
 
-    moveToThirdPage()
+    moveToSecondPage()
   }
 
   const handleCodeChange = (event)=>{
@@ -179,7 +241,8 @@ const GameWithFriend = () => {
     
   }
 
-  const sendMessageHandler = ()=>{
+  const sendMessageHandler = (event)=>{
+    event.preventDefault()
       socket.emit("sendMessage", {
         messageText: gameState.messageText,
       })
@@ -211,7 +274,6 @@ const GameWithFriend = () => {
         pages.firstPage &&
         <>
         
-       
         <div className="FriendSignUpForm">
         <button className="FriendCreateNewGame FriendButton" onClick={createNewGame}>CREATE NEW GAME</button>
         <div className="inputCodeForGame">
@@ -233,9 +295,11 @@ const GameWithFriend = () => {
         </div>
         <div className="WaitingForConnection">
           <p>Waiting For Opponent Connection...</p>
-          <p>Loading...</p>
+          <br />  
+          <br />
+          <AlertComponent type={"spokes"} color={"blueviolet"}/>
         </div>
-
+        
         <button onClick={moveToThirdPage}>deomo</button>
       </>
     }
@@ -247,9 +311,9 @@ const GameWithFriend = () => {
       pages.thirdPage &&
       <>
         <div className="FriendThirdPageConnection">
-          <h3>Connected With Aman</h3>
+          <h3>Connecting</h3>
           <h2>Let's Start Game In </h2>
-          <h1>10 SEC.</h1>
+          <h1>{timer} SEC.</h1>
         </div>
 
         <button onClick={moveToFourthPage}>demo</button>
@@ -261,6 +325,9 @@ const GameWithFriend = () => {
     {
       pages.fourthPage && 
       <>
+      <div className="computerCounter">
+            <h1>{gameState.gameCounter}</h1>
+        </div>
          <div className="computerWrapperDiv1">
          <div className="computerGameFirstPhase">
                 <div className="computerSelectHeading">
@@ -281,7 +348,8 @@ const GameWithFriend = () => {
             </div>
 
             <div className="friendChatting">
-              <div className="messagesBox">
+             <div className="messageBoxWrapper">
+             <div className="messagesBox">
                 <div className="messageItem">
                   <p className="messageSenderName">Ketan Rathod</p>
                   <div className="messageAndTime">
@@ -291,6 +359,7 @@ const GameWithFriend = () => {
                 </div>
                 {
                   messages.map(Message=> (
+                  <Item>
                   <div className="messageItem">
                     <p className="messageSenderName">{Message.userName}</p>
                     <div className="messageAndTime">
@@ -298,17 +367,19 @@ const GameWithFriend = () => {
                     <p className="messageTime">{Message.timeHours}:{Message.timeMinutes}</p>
                     </div>
                   </div>
+                  </Item>
                   ))
                   
-                }
-                
-                
+                } 
               </div>
+             </div>
 
+              <form action="" onSubmit={sendMessageHandler} className="friendSendMessageBoxForm">
               <div className="friendSendMessageBox">
                 <input type="text" value={gameState.messageText} onChange={(e)=> setGameState({...gameState, messageText: e.target.value})}/>
-                <button onClick={sendMessageHandler}>Send</button>
+                <button type="submit">Send</button>
               </div>
+              </form>
             </div>
 
             <div className="computerGameSecondPhase">
@@ -330,3 +401,21 @@ const GameWithFriend = () => {
 };
 
 export default GameWithFriend;
+
+
+// if new item added then move focus there
+function Item({ children }) {
+  const ref = useRef();
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }, []);
+
+  return (
+    <div className="Item" ref={ref}>
+      {children}
+    </div>
+  );
+}
