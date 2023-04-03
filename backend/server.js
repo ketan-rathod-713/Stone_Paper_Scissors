@@ -10,7 +10,7 @@ const port = process.env.PORT || 4000
 import { Server } from 'socket.io';
 import {stonePaperScissor} from './utils/GameLogic.js'
 
-const clientOrigin = "http://localhost:3000";
+const clientOrigin = ["http://localhost:3000", "https://642a49be1067470008e9343e--funny-torrone-71cf1a.netlify.app"];
 
 // Socket.io
 const io = new Server(server, 
@@ -23,7 +23,13 @@ const io = new Server(server,
 
 // Middleware
 app.use(cors())
-app.use(express.json())
+app.use(express.json())     
+
+app.get("/", (req, res)=>{
+    res.json({
+        message: "Welcome to the api of stone paper scissors"
+    })
+})
 
 app.get("/api", (req, res)=>{
     res.json({message: "Welcome to this api"})
