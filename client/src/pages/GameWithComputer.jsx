@@ -1,4 +1,4 @@
-import React, { useContext, useEffect , useState} from "react";
+import React, { useEffect , useState} from "react";
 import "./GameWithComputer.css"
 import BgImage from "../backgroundImages/bg2.jpg"
 import Stone from "../gameIcons/stones.svg"
@@ -25,7 +25,6 @@ const customStyles = {
       backgroundColor: "white",
       width: "100vw",
       height: "100vh",
-      backgroundColor: "white"
     },
   };
 
@@ -59,7 +58,7 @@ const GameWithComputer = (props) => {
      
 
     useEffect(()=>{
-        if(initial == true){ // for only first time
+        if(initial === true){ // for only first time
             const yourName = JSON.parse(localStorage.getItem('yourName'));
             if (yourName) {
             setYourName(yourName)
@@ -99,6 +98,7 @@ const GameWithComputer = (props) => {
         return ()=>{
 
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [counter]) 
     // when counter changes run useEffect at that time only, not on selections which are twice
 
@@ -124,7 +124,7 @@ const GameWithComputer = (props) => {
     {
         initial &&
         <>
-        <img className="bgGameWithComputer" src={BgImage} alt="vs image" /> 
+        <img className="bgGameWithComputer" src={BgImage} alt="vs" /> 
         <h1 className="yourName">{yourName}</h1>
         <h1 className="opponentName">Computer</h1>
         <button className="startGameBtn" onClick={()=> setinitial(false)}>Start Game</button>
@@ -148,7 +148,7 @@ const GameWithComputer = (props) => {
 {
     !initial && !isGameOver &&
     <div>
-        <img className="bgGameWithComputer" src={BgImage} alt="vs image" /> 
+        <img className="bgGameWithComputer" src={BgImage} alt="vs" /> 
 
         <div className="computerCounter">
             <h1>{counter}</h1>
@@ -214,7 +214,7 @@ const GameWithComputer = (props) => {
 {
     isGameOver &&
     <div>
-        <img className="bgGameWithComputer" src={BgImage} alt="background image" /> 
+        <img className="bgGameWithComputer" src={BgImage} alt="background" /> 
         <div className="gameOverDiv">
             <h1>GAME OVER!</h1>
         </div>

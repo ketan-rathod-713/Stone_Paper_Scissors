@@ -1,29 +1,17 @@
-import React, { useContext, useEffect , useState, useRef} from "react"; 
+import React, { useEffect , useState, useRef} from "react"; 
 import BgImage from "../backgroundImages/bg2.jpg"
 import Stone from "../gameIcons/stones.svg"
 import Paper from "../gameIcons/paper.svg"
 import Scissors from "../gameIcons/scissors.svg"
-import Star from "../gameIcons/star.svg"
-import {NumberToSVG ,NumberToOption, stonePaperScissor, OptionToNumber, resultOutputToTextFormate , calculateFinalResultFromSelectionArray} from "../components/Utils"; // reducing code is good practice
+import {NumberToSVG , OptionToNumber } from "../components/Utils"; // reducing code is good practice
 import "./GameWithFriend.css"
 import socketIO from 'socket.io-client';
-import ReactLoading from 'react-loading';
 import AlertComponent from "../components/AlertComponent";
-
-// here selectedA and selectedB are integers
-// it can be range from 1, 2, 3 only ( is user doesnt select then 0 == loose by default)
-// 1 - stone
-// 2 - paper
-// 3 - scissors
 
 
 const serverLocation = 'http://localhost:4000';
-
-// for bidirectional connection with server, event based
-
-// const socket = socketIO.connect(serverLocation);
-
-const socket = socketIO(serverLocation,{autoConnect: false})
+// const serverLocation = 'https://stonepaperscissorsgameserver.onrender.com/';
+const socket = socketIO(process.env.SERVER_LOCATION || serverLocation,{autoConnect: false})
 
 const GameWithFriend = () => {
   const [code, setCode] = useState()
@@ -165,7 +153,7 @@ const GameWithFriend = () => {
     })
 
     socket.on("gameOver", (message)=>{
-      const {mySelections, opponentSelections, result} = message
+      // const {mySelections, opponentSelections, result} = message
 
       moveToFifthPage()
     })
@@ -173,6 +161,8 @@ const GameWithFriend = () => {
     socket.on("optionSelectionResult", (message)=>{
       const {result, opponentSelection, mySelection, optionCount} = message
 
+      console.log(result);
+      
       console.log(message)
 
 
@@ -340,7 +330,7 @@ const GameWithFriend = () => {
 
   
   return <div>
-  <img className="bgGameWithComputer" src={BgImage} alt="vs image" /> 
+  <img className="bgGameWithComputer" src={BgImage} alt="vs" /> 
     {
         pages.firstPage &&
         <>

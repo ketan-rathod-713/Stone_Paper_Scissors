@@ -1,11 +1,8 @@
 import './App.css';
-import { GlobalProvider } from './globalContext/GlobalContext';
 import GameWithComputer from './pages/GameWithComputer';
 import GameWithFriend from './pages/GameWithFriend';
 import GameWithComputerSetting from './pages/GameWithComputerSetting';
 import Home from './pages/Home';
-import ReactAudioPlayer from 'react-audio-player';
-import GameMusic from "./gameMusic.mp3"
 import {
   createBrowserRouter,
   RouterProvider,
@@ -40,6 +37,7 @@ function App() {
     console.log("music started");
     if(!playing)
     toggle()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <div className="App">
@@ -70,6 +68,7 @@ const useAudio = url => {
         audio.pause()
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [playing]
   );
 
@@ -78,6 +77,7 @@ const useAudio = url => {
     return () => {
       audio.removeEventListener('ended', () => setPlaying(false));
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return [playing, toggle];
