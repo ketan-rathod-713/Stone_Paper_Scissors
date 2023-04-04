@@ -28,7 +28,8 @@ const router = createBrowserRouter([
   },
 ]);
 
-const url = "http://streaming.tdiradio.com:8000/house.mp3";
+// const url = "http://streaming.tdiradio.com:8000/house.mp3";
+const url = "https://stonepaperscissorsgameserver.onrender.com/api/homeAudio";
 
 function App() {
   const [playing, toggle] = useAudio(url);

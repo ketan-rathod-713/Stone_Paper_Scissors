@@ -1,16 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap');
 
 .homePage {
-    height: 100vh;
+    height: 100%;
     position: relative;
+    top: 0;
 }
 
 .bgHome{
+    overflow: hidden;
     z-index: -1;
     object-fit: cover;
-    height: 100vh;
-    width: 100vw;
-    position: absolute;
+    height: 100%;
+    width: 100%;
+    /* position: absolute; */
     top: 0;
     transition: all;
     animation: BackgroundImage 2s 100ms infinite ease-in alternate-reverse;
@@ -25,11 +27,27 @@
     }
 }
 
+
+
+
+.homeIconsWrapper{
+    position: absolute;
+    top: 0;
+    width: 70%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* z-index: 30; */
+}
+
 .homestoneDiv{
     font-family: 'Bungee Shade', cursive;
     color: #7843E6;
     font-size: 50px;
-    position: absolute;
+    /* position: absolute; */
+    transform-origin: center center;
     left: 30%;
     animation: StoneDiv 7s ease-in-out 10s infinite;
     display: flex;
@@ -87,7 +105,7 @@
     font-family: 'Bungee Shade', cursive;
     color: #7843E6;
     font-size: 50px;
-    position: absolute;
+    /* position: absolute; */
     top: 27%;
     left: 4%;
     animation: PaperDiv 5s ease-in-out 100ms infinite;
@@ -106,7 +124,7 @@
     font-family: 'Bungee Shade', cursive;
     color: #7843E6;
     font-size: 50px;
-    position: absolute;
+    /* position: absolute; */
     bottom: 10%;
     left: 10%;
     animation: ScissorsDiv 6s ease-in-out 5s infinite;
@@ -175,4 +193,55 @@
 #enterNameInputLabel{
     color: rgb(190, 190, 190);
     text-align: right;
+}
+
+@media screen and (max-width: 1000px){
+    .homeIconsWrapper{
+        width: 100%;
+        height: 60vh;
+    }
+    .homestoneDiv{
+        left: 5px;
+        font-size: 1.25rem;
+        top: 5%;
+    }
+    .homepaperDiv{
+        left: 5px;
+        font-size: 1.25rem;
+        top: 20%;
+    }
+    .homescissorsDiv{
+        left: 5px;
+        font-size: 1.25rem;
+        top: 40%;
+    }
+
+    .homestoneSVG{
+    height: 60px;
+    margin: 0px 5px;
+    }
+    .homepaperSVG{
+    height: 60px;
+    margin: 0px 5px;
+    }
+    .homescissorsSVG{
+    height: 60px;
+    margin: 0px 5px;
+    }
+    .homebuttons{
+        position: absolute;
+        bottom: 10%;
+        left: 2%;
+        /* right: 5%; */
+        margin: 0 2%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .homebuttons button{
+        padding: 15px 70px;
+        margin-top: 25px;
+        font-size: 16px;
+        width: 100%;
+    }
 }

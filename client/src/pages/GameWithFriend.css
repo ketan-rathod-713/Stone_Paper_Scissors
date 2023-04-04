@@ -4,9 +4,33 @@
     box-sizing: border-box;
 }
 
+.gameWithFriendScreen{
+    height: 100%;
+    width: 100%;
+}
+
+.bgGameWithFriend {
+    z-index: -1;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    position: absolute   ;
+    top: 0;
+    transition: all;
+}
+.FriendSignUpForm{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 10%;
+    width: 40%;
+    margin-left: 50%;
+}
+
 .inputCodeForGame{
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: center;
     margin: 30px 0px;
 }
 
@@ -20,6 +44,7 @@
     border: 1px solid blueviolet;
     /* border: none; */
     /* letter-spacing: 25px; */
+    letter-spacing: 40px;
 }
 
 .inputCodeForGame input :active {
@@ -28,12 +53,7 @@
 .inputCodeForGame input :focus {
     border: none;
 }
-.inputCodeForGameDiv{
-    margin: 5px;
-    height: 50px;
-    width: 50px;
-    background-color: blue;
-}
+
 
 .FriendCreateNewGame{
 
@@ -62,27 +82,44 @@
     background-image: linear-gradient(to right,  #7843E6 ,#5170ff);
 }
 
-.FriendSignUpForm{
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    bottom: 10%;
-    right: 5%;
-    width: 500px;
+@media screen and (max-width:1000px) {
+    .FriendButton{
+        /* width: 90%; */
+        width: 100%;
+    }
+    .FriendSignUpForm{
+        width: 100%;
+        margin: 0;
+        padding: 5%;
+    }
+    .inputCodeForGame{
+        width: 100%;
+    }
+    .inputCodeForGame input{
+        width: 100%;
+        letter-spacing: 40px;
+    }
 }
 
 
-
+/* SECOND PAGE STARTS  */
+.SecondPageWrapper{
+    height: 100vh;
+    padding: 50px;
+    overflow: scroll;
+}
 .friendShareCodeHeader{
+    /* margin-top: 5%; */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 80px;
 }
 
 .friendShareCodeHeader p{
-    font-size: 30px;
+    text-align: center;
+    padding: 10px;
+    font-size: 40px;
     color: white;
 }
 
@@ -107,36 +144,84 @@
     color: rgb(186, 184, 184);
 }
 
-.WaitingForConnection AlertComponent {
-    margin: 0;
+.WaitingForConnection .alertComponent {
+    height: 30px;
+}
+
+@media screen and (max-width:1000px) {
+    .friendShareCodeHeader p{
+    text-align: center;
+    padding: 10px;
+    font-size: 20px;
+    color: white;
+}
+
+    .friendShareCodeHeader h1{
+    font-size: 30px;
+}
+    .WaitingForConnection p{
+        letter-spacing: 4px;
+    font-size: 30px;
+    text-align: center;
+    color: rgb(186, 184, 184);
+}
+
 }
 
 
 
-
-
+/* THIRD PAGE STARTS */
 .FriendThirdPageConnection {
-    margin-top: 150px;
+    height: 100%;
     display: flex;
     flex-direction: column;
+    /* justify-content: space-around; */
     justify-content: center;
     align-items: center;
 }
 
 .FriendThirdPageConnection h3 {
-    font-size: 25px;
-    color: greenyellow;
-    margin: 20px 0;
+    text-align: center;
+    font-size: 40px;
+    color: rgb(119, 255, 85);
+    /* margin: 50px 0; */
+    margin-top: 50px;
 }
 .FriendThirdPageConnection h2 {
-    font-size: 50px;
+    margin-top: 30px;
+    letter-spacing: 10px;
+   
+    text-align: center;
+    font-size: 60px;
     color: greenyellow;
-    margin: 20px 0;
+    /* margin-top: 40px; */
 }
 .FriendThirdPageConnection h1 {
-    font-size: 70px;
+   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    font-size: 50px;
     color: rgb(184, 184, 184);
-    margin: 20px 0;
+}
+
+
+
+/* FOURTH PAGE STARTS */
+.FriendFourthScreenWrapper{
+    height: 100%;
+    overflow: scroll;
+}
+
+.computerCounter{
+    color: yellow;
+    font-size: 35px;
+    position: absolute;
+    width: 100%;
+    left: 0%;
+    text-align: center;
+    top: 1%;
 }
 
 .friendChatting{
@@ -223,4 +308,8 @@
     cursor: pointer;
     font-family: 'Bungee Shade', cursive;
     font-size: 19px;
+}
+
+@media screen and (max-width:1300px) {
+    
 }
