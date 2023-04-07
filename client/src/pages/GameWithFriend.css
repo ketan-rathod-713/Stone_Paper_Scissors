@@ -27,6 +27,13 @@
     margin-left: 50%;
 }
 
+@media screen and (max-width: 600px) {
+    .FriendSignUpForm{
+        width: 100%;
+        margin: 0 5%;
+    }
+}
+
 .inputCodeForGame{
     display: flex;
     justify-content: center;

@@ -35,7 +35,7 @@ export class Home extends Component {
       <div className="homePage">
         <img className="bgHome" src={BgImage} alt="" />
 
-        <div className="homeIconsWrapper">
+        {/* <div className="homeIconsWrapper">
         <div className="homestoneDiv">
           <img className="homestoneSVG" src={Stone} alt="" />
           <h1>Stone</h1>
@@ -53,7 +53,7 @@ export class Home extends Component {
           <h1>Scissors</h1>
           <img className="homepaperSVG" src={Paper} alt="" />
         </div>
-        </div>
+        </div> */}
 
         <div className="homebuttons">
           <label htmlFor="enterNameInput" id="enterNameInputLabel">
