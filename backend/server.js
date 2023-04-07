@@ -12,7 +12,7 @@ import {stonePaperScissor} from './utils/GameLogic.js'
 
 // How can i Store it's data in mongodb ha ha or firebase for later use
 
-const clientOrigin = ["http://localhost:3000", "https://642a49be1067470008e9343e--funny-torrone-71cf1a.netlify.app"];
+const clientOrigin = ["http://localhost:3000", "https://642a49be1067470008e9343e--funny-torrone-71cf1a.netlify.app", "https://main--funny-torrone-71cf1a.netlify.app"];
 
 // Socket.io
 const io = new Server(server, 
