@@ -11,6 +11,9 @@ import { Server } from 'socket.io';
 import {stonePaperScissor} from './utils/GameLogic.js'
 
 // How can i Store it's data in mongodb ha ha or firebase for later use
+// Middleware
+app.use(cors())
+app.use(express.json())     
 
 const clientOrigin = ["http://localhost:3000", "https://642a49be1067470008e9343e--funny-torrone-71cf1a.netlify.app", "https://main--funny-torrone-71cf1a.netlify.app"];
 
@@ -23,9 +26,7 @@ const io = new Server(server,
     }
   });
 
-// Middleware
-app.use(cors())
-app.use(express.json())     
+
 
 app.get("/", (req, res)=>{
     res.json({
@@ -40,10 +41,10 @@ app.get("/api", (req, res)=>{
 // api to get audio for home page when reloads
 app.get("/api/homeAudio", (req, res)=>{
     res.writeHead(200, {"Content-Type": "audio/mp3"});
-    const exists = fs.existsSync(__dirname + "/public/gameMusic.mp3")
+    const exists = fs.existsSync("./public/gameMusic.mp3")
     console.log(exists);
     if(exists){
-        var rstream = fs.createReadStream(__dirname + "/public/gameMusic.mp3")
+        var rstream = fs.createReadStream("./public/gameMusic.mp3")
         rstream.pipe(res)
     }
     else {
