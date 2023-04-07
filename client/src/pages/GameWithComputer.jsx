@@ -78,12 +78,29 @@ const GameWithComputer = (props) => {
         setSelectionResultArray(prevArray => [...prevArray, result])
         console.log(result);
         console.log(selectionResultArray)
+
+        if(result === 1){
+            if(selectedElement)
+            selectedElement.classList.add("computerSelectedOption")
+        }
+        if(result === 2){
+            if(selectedElement)
+            selectedElement.classList.add("computerSelectedWrongOption")
+        }
+        if(result === 0){
+            if(selectedElement)
+            selectedElement.classList.add("computerSelectedDrawOption")
+        }
         
         setTimeout(() => {
             setSelected(false)
             if(selectedElement){
                 selectedElement.classList.remove("computerSelectedOption")
+                selectedElement.classList.remove("computerSelectedWrongOption")
+                selectedElement.classList.remove("computerSelectedDrawOption")
             }
+            console.log(selectedElement);
+            
         }, 7000);
 
         // for isGameOver
@@ -105,7 +122,7 @@ const GameWithComputer = (props) => {
     const handleSelection = (event)=>{
         const selected = (event.currentTarget.id).substring(11)
         const selectedElement = event.target
-        selectedElement.classList.add("computerSelectedOption")
+        
         
         // updating state for useEffect to do some work related to sideEffects
         setSelected(true)
@@ -125,12 +142,14 @@ const GameWithComputer = (props) => {
         initial &&
         <>
         <img className="bgGameWithComputer" src={BgImage} alt="vs" /> 
+        <div className="gameWithComputerInitialWrapper">
         <h1 className="yourName">{yourName}</h1>
         <h1 className="opponentName">Computer</h1>
         <button className="startGameBtn" onClick={()=> setinitial(false)}>Start Game</button>
 
      
-      <button onClick={setModalOpen}>Game Settings</button>
+        <button onClick={setModalOpen}>Game Settings</button>
+        </div>
       <Modal
         isOpen={modalOpen}
         onRequestClose={() => setModalOpen(false)}
