@@ -11,7 +11,7 @@ import AlertComponent from "../components/AlertComponent";
 const serverLocation = "http://localhost:4000";
 // const serverLocation = 'https://stonepaperscissorsgameserver.onrender.com/';
 const socket = socketIO(process.env.SERVER_LOCATION || serverLocation, {
-  autoConnect: false,
+  autoConnect: true,
 });
 
 const GameWithFriend = () => {
