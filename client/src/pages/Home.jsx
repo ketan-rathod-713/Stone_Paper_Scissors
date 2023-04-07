@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import "./Home.css";
 import BgImage from "../backgroundImages/bg2.jpg";
-import Stone from "../gameIcons/stones.svg";
-import Paper from "../gameIcons/paper.svg";
-import Scissors from "../gameIcons/scissors.svg";
+// import Stone from "../gameIcons/stones.svg";
+// import Paper from "../gameIcons/paper.svg";
+// import Scissors from "../gameIcons/scissors.svg";
 // import gameMusic from "../gameMusic.mp3"
 import { Link } from "react-router-dom";
 
