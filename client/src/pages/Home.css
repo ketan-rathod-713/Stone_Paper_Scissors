@@ -203,6 +203,7 @@
     .homeIconsWrapper{
         width: 100%;
         height: 60vh;
+        position: static;
     }
     .homestoneDiv{
         left: 5px;
