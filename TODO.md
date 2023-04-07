@@ -10,4 +10,4 @@
 - Counter updated successfully ( DONE )
 - Game Over and show full fledged result at the end
 - Play again feature ( if both players press playagain , if one of them left then invite other player )
-
+- Show error message if socket is not connected.

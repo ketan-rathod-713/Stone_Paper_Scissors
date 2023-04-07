@@ -10,6 +10,7 @@
     overflow: hidden;
     z-index: -1;
     object-fit: cover;
+    position: absolute;
     height: 100%;
     width: 100%;
     /* position: absolute; */
@@ -195,6 +196,9 @@
     text-align: right;
 }
 
+
+
+
 @media screen and (max-width: 1000px){
     .homeIconsWrapper{
         width: 100%;
@@ -202,30 +206,30 @@
     }
     .homestoneDiv{
         left: 5px;
-        font-size: 1.25rem;
+        font-size: 20px;
         top: 5%;
     }
     .homepaperDiv{
         left: 5px;
-        font-size: 1.25rem;
+        font-size: 20px;
         top: 20%;
     }
     .homescissorsDiv{
         left: 5px;
-        font-size: 1.25rem;
+        font-size: 20px;
         top: 40%;
     }
 
     .homestoneSVG{
-    height: 60px;
+    height: 40px;
     margin: 0px 5px;
     }
     .homepaperSVG{
-    height: 60px;
+    height: 40px;
     margin: 0px 5px;
     }
     .homescissorsSVG{
-    height: 60px;
+    height: 40px;
     margin: 0px 5px;
     }
     .homebuttons{
