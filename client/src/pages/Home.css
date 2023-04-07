@@ -16,8 +16,8 @@
     width: 100%;
     /* position: absolute; */
     top: 0;
-    transition: all;
-    animation: BackgroundImage 2s 100ms infinite ease-in alternate-reverse;
+    /* transition: all; */
+    /* animation: BackgroundImage 2s 100ms infinite ease-in alternate-reverse; */
 }
 
 @keyframes BackgroundImage {
@@ -203,44 +203,46 @@
 @media screen and (max-width: 1000px){
     .homeIconsWrapper{
         width: 100%;
-        height: 70%;
-        position: static;
+        height: 50%;
+        position: absolute;
+        top: 0;
     }
     .homestoneDiv{
         left: 5px;
-        font-size: 20px;
+        font-size: 10px;
         top: 5%;
     }
     .homepaperDiv{
         left: 5px;
-        font-size: 20px;
+        font-size: 10px;
         top: 20%;
     }
     .homescissorsDiv{
         left: 5px;
-        font-size: 20px;
+        font-size: 10px;
         top: 40%;
     }
 
     .homestoneSVG{
-    height: 40px;
-    margin: 0px 5px;
+    height: 20px;
+    margin: 0px 2px;
     }
     .homepaperSVG{
-    height: 40px;
-    margin: 0px 5px;
+    height: 20px;
+    margin: 0px 2px;
     }
     .homescissorsSVG{
-    height: 40px;
-    margin: 0px 5px;
+    height: 20px;
+    margin: 0px 2px;
     }
     .homebuttons{
         position: absolute;
         bottom: 10%;
-        left: 2%;
-        width: 95%;
+        left: 0;
+        width: 90%;
         /* right: 5%; */
-        margin: 0 2%;
+        /* margin: 0 2%; */
+        margin: 5%;
         display: flex;
         flex-direction: column;
     }
