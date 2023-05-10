@@ -1,0 +1,322 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.gameWithFriendScreen{
+    height: 100%;
+    width: 100%;
+}
+
+.bgGameWithFriend {
+    z-index: -1;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    position: absolute   ;
+    top: 0;
+    transition: all;
+}
+.FriendSignUpForm{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 10%;
+    width: 40%;
+    margin-left: 50%;
+}
+
+@media screen and (max-width: 600px) {
+    .FriendSignUpForm{
+        width: 100%;
+        margin: 0 5%;
+    }
+}
+
+.inputCodeForGame{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0px;
+}
+
+.inputCodeForGame input {
+    padding: 7px 15px;
+    font-size: 30px;
+    background-color: transparent;
+    color: white;
+    width: 100%;
+    text-align: center;
+    border: 1px solid blueviolet;
+    /* border: none; */
+    /* letter-spacing: 25px; */
+    letter-spacing: 40px;
+}
+
+.inputCodeForGame input :active {
+    border: none;
+}
+.inputCodeForGame input :focus {
+    border: none;
+}
+
+
+.FriendCreateNewGame{
+
+}
+
+.FriendJoinGame{
+
+}
+
+.FriendButton{
+    padding: 12px 70px;
+    background-image: linear-gradient(to right, #5170ff , #7843E6);
+    border: 1px solid #fd2cfd;
+    box-shadow:2px 2px 1px #fd2cde;
+    color: rgb(255, 255, 255);
+    transition: all 100ms;
+    cursor: pointer;
+    font-family: 'Bungee Shade', cursive;
+    font-size: 19px;
+    width: 100%;
+}
+
+.FriendButton :hover{
+    color: rgb(0, 225, 255);
+    background-color: blue;
+    background-image: linear-gradient(to right,  #7843E6 ,#5170ff);
+}
+
+@media screen and (max-width:1000px) {
+    .FriendButton{
+        /* width: 90%; */
+        width: 100%;
+    }
+    .FriendSignUpForm{
+        width: 100%;
+        margin: 0;
+        padding: 5%;
+    }
+    .inputCodeForGame{
+        width: 100%;
+    }
+    .inputCodeForGame input{
+        width: 100%;
+        letter-spacing: 40px;
+    }
+}
+
+
+/* SECOND PAGE STARTS  */
+.SecondPageWrapper{
+    height: 100vh;
+    padding: 50px;
+    overflow: scroll;
+}
+.friendShareCodeHeader{
+    /* margin-top: 5%; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.friendShareCodeHeader p{
+    text-align: center;
+    padding: 10px;
+    font-size: 40px;
+    color: white;
+}
+
+.friendShareCodeHeader h1{
+    font-size: 50px;
+    color: white;
+    font-weight: bold;
+    letter-spacing: 30px;
+    margin-top: 10px;
+}
+
+.WaitingForConnection {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.WaitingForConnection p{
+    font-size: 40px;
+    color: rgb(186, 184, 184);
+}
+
+.WaitingForConnection .alertComponent {
+    height: 30px;
+}
+
+@media screen and (max-width:1000px) {
+    .friendShareCodeHeader p{
+    text-align: center;
+    padding: 10px;
+    font-size: 20px;
+    color: white;
+}
+
+    .friendShareCodeHeader h1{
+    font-size: 30px;
+}
+    .WaitingForConnection p{
+        letter-spacing: 4px;
+    font-size: 30px;
+    text-align: center;
+    color: rgb(186, 184, 184);
+}
+
+}
+
+
+
+/* THIRD PAGE STARTS */
+.FriendThirdPageConnection {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-around; */
+    justify-content: center;
+    align-items: center;
+}
+
+.FriendThirdPageConnection h3 {
+    text-align: center;
+    font-size: 40px;
+    color: rgb(119, 255, 85);
+    /* margin: 50px 0; */
+    margin-top: 50px;
+}
+.FriendThirdPageConnection h2 {
+    margin-top: 30px;
+    letter-spacing: 10px;
+   
+    text-align: center;
+    font-size: 60px;
+    color: greenyellow;
+    /* margin-top: 40px; */
+}
+.FriendThirdPageConnection h1 {
+   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    font-size: 50px;
+    color: rgb(184, 184, 184);
+}
+
+
+
+/* FOURTH PAGE STARTS */
+.FriendFourthScreenWrapper{
+    height: 100%;
+    overflow: scroll;
+}
+
+.computerCounter{
+    color: yellow;
+    font-size: 35px;
+    position: absolute;
+    width: 100%;
+    left: 0%;
+    text-align: center;
+    top: 1%;
+}
+
+.friendChatting{
+    /* border: 1px dashed red; */
+    width: 28%;
+    background-color: transparent;
+    height: 100%;
+    overflow-y: scroll;
+    padding: 15px 15px -5px 15px;
+
+    position: relative;
+}
+
+.friendChatting::-webkit-scrollbar {
+    display: none;
+  }
+
+.messagesBox{
+    display: flex;
+    flex-direction: column;
+    /* overflow-y: scroll; */
+    /* padding-bottom: 100px; */
+}
+.messageSenderName{
+    color: palevioletred;
+}
+
+.messageAndTime{
+    color: white;
+    display: flex;
+    justify-content: space-between;
+}
+
+.messageItem{
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background-color: #3358fd;
+    margin: 10px 0;
+}
+
+.messageTime{
+
+
+}
+
+.messageText {
+
+}
+
+.friendSendMessageBoxForm{
+    position: sticky;
+    bottom: 0;
+}
+
+.friendSendMessageBox{
+    display: flex;
+    /* position: sticky; */
+    /* bottom: 0; */
+    background-color: none;
+}
+
+.friendSendMessageBox input{
+    flex: 8;
+    padding: 10px 20px;
+    font-size: 17px;
+    background-color: #2249f7;
+    font-size: 23px;
+    color: white;
+    width: 100%;
+    text-align: left;
+}
+
+.friendSendMessageBox button{
+    flex: 2;
+    padding: 12px 10px;
+    background-image: linear-gradient(to right, #5170ff , #7843E6);
+    border: 1px solid #fd2cfd;
+    box-shadow:2px 2px 1px #fd2cde;
+    color: rgb(255, 255, 255);
+    transition: all 100ms;
+    cursor: pointer;
+    font-family: 'Bungee Shade', cursive;
+    font-size: 19px;
+}
+
+@media screen and (max-width:1300px) {
+    
+}
