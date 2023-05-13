@@ -11,8 +11,12 @@ import { NumberToSVG, OptionToNumber } from "../components/Utils"; // reducing c
 import "./GameWithFriend.css";
 
 
-// const serverLocation = "http://localhost:4000";
-  const serverLocation = 'https://stonepaperscissorsgameserver.onrender.com/';
+let serverLocation = 'https://stonepaperscissorsgameserver.onrender.com/';
+
+if(window.location.href.includes("localhost")){
+  serverLocation = "http://localhost:4000";
+}
+
 const socket = socketIO(process.env.SERVER_LOCATION || serverLocation, {
   autoConnect: true,
 });
@@ -20,6 +24,7 @@ const socket = socketIO(process.env.SERVER_LOCATION || serverLocation, {
 
 const GameWithFriend = () => {
   const [code, setCode] = useState();
+  const [selectedElement, setSelectedElement] = useState("")
 
   // Pages
   const [pages, setPages] = useState({
@@ -57,8 +62,8 @@ const GameWithFriend = () => {
 
     console.log(selected);
 
-    selectedElement.classList.add("computerSelectedOption");
-
+    // selectedElement.classList.add("computerSelectedOption");
+    setSelectedElement(event.currentTarget.id);
     // updating state for useEffect to do some work related to sideEffects
     setSelected(true); // Now ig no one can do anything
 
@@ -151,6 +156,7 @@ const GameWithFriend = () => {
       socket.on("opponentSelectedOption", () => {
         console.log("opponent selected something");
 
+        // set check mark
         setGameState((prevState) => ({
           ...prevState,
           opponentSVG: NumberToSVG[4], // 4 is for checkmark
@@ -181,6 +187,7 @@ const GameWithFriend = () => {
       ]);
 
       setTimeout(() => {
+        setSelectedElement("")
         setSelected(false);
       }, 1000);
     });
@@ -375,21 +382,21 @@ const GameWithFriend = () => {
               <div className="computerGameOptions">
                 {/* 3 options */}
                 <div
-                  className="computerStoneDiv"
+                  className={`computerStoneDiv ${ selectedElement === "ComputerImgstone" ? 'computerSelectedOption' : ''}`}
                   onClick={!selected ? handleSelection : null}
                   id="ComputerImgstone"
                 >
                   <img className="computerOptionImg" src={Stone} alt="" />
                 </div>
                 <div
-                  className="computerPaperDiv"
+                  className={`computerPaperDiv ${ selectedElement === "ComputerImgpaper" ? 'computerSelectedOption' : ""}`} 
                   onClick={!selected ? handleSelection : null}
                   id="ComputerImgpaper"
                 >
                   <img className="computerOptionImg" src={Paper} alt="" />
                 </div>
                 <div
-                  className="computerScissorsDiv"
+                  className={`computerScissorsDiv ${ selectedElement === "ComputerImgscissors" ? 'computerSelectedOption' : ""}`} 
                   onClick={!selected ? handleSelection : null}
                   id="ComputerImgscissors"
                 >

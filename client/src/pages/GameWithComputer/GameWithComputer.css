@@ -251,7 +251,8 @@
 }
 
 .computerSelectedOption{
-    border: 2px solid green;
+    border-radius: 10px;
+    filter: invert(74%) sepia(99%) saturate(4865%) hue-rotate(87deg) brightness(127%) contrast(114%);
 }
 
 .primary{
@@ -368,19 +369,22 @@
         width: 100%;
         padding: 10px 10px;
         top: 16%;
-        height: 60%;
+        /* height: 60%; */
         /* border: 1px dashed red; */
         justify-content: space-around;
         align-items:center;
+    }
+
+    .friendChatting {
+        min-height: 300px;
+        min-width: 90%;
+        width: 100%
     }
     
     .computerGameFirstPhase{
         display: flex;
         flex-direction: column;
         justify-content: center;
-        /* border: 1px dashed green; */
-        /* flex: 2; */
-        /* border-right: 5px solid rgb(0, 255, 204); */
         transition: all 5s;
     }
     
