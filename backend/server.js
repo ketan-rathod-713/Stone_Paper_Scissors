@@ -1,16 +1,13 @@
-// main server
-
 import express from 'express';
 import fs from 'fs';
 import http from 'http';
 import cors from 'cors';
-import nodemailer from "nodemailer";
+import { Server } from 'socket.io';
+import {stonePaperScissor} from './utils/GameLogic.js'
 
 const app = express();
 const server = http.createServer(app);
 const port = process.env.PORT || 4000
-import { Server } from 'socket.io';
-import {stonePaperScissor} from './utils/GameLogic.js'
 
 // Middleware
 app.use(cors())
@@ -48,7 +45,6 @@ app.get("/api/homeAudio", (req, res)=>{
     else {
         res.end("it is res 404")
     }
-    
 })
 
 io.of("/").adapter.on("create-room", (room) => { // Room Information For Default Namespace
