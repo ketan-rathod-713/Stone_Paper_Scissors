@@ -3,7 +3,7 @@ import BgImage from '../../backgroundImages/bg2.jpg'
 import Stone from '../../gameIcons/stones.svg'
 import Paper from '../../gameIcons/paper.svg'
 import Scissors from '../../gameIcons/scissors.svg'
-import { useNavigate } from 'react-router-dom' // Import useNavigate
+import { useNavigate } from 'react-router-dom'
 import {
   NumberToOption,
   stonePaperScissor,
@@ -35,9 +35,9 @@ const GameWithComputer = () => {
   const [selectionResultArray, setSelectionResultArray] = useState([])
   const [result, setResult] = useState({})
 
-  const navigate = useNavigate() // Initialize navigate function
+  const navigate = useNavigate()
 
-  const [step, setStep] = useState('select') // 'select', 'result', 'gameOver'
+  const [step, setStep] = useState('select')
 
   useEffect(() => {
     const yourName = JSON.parse(localStorage.getItem('yourName'))
@@ -73,52 +73,69 @@ const GameWithComputer = () => {
   }
 
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen bg-gray-100'>
+    <div className='min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100'>
       {initial && (
-        <>
+        <div className='relative min-h-screen flex items-center justify-center p-4'>
           <img
-            className='absolute w-full h-full object-cover'
+            className='absolute inset-0 w-full h-full object-cover opacity-20'
             src={BgImage}
-            alt='vs'
+            alt='background'
           />
-          <div className='relative flex flex-col items-center justify-center p-8 bg-white rounded-lg shadow-md'>
-            <h1 className='text-3xl font-bold mb-4'>{yourName}</h1>
-            <h1 className='text-xl text-gray-600 mb-4'>Computer</h1>
-            <button
-              className='bg-blue-500 text-white px-6 py-2 rounded-lg mb-4 hover:bg-blue-600'
-              onClick={() => setInitial(false)}
-            >
-              Start Game
-            </button>
-            <button
-              className='text-blue-500'
-              onClick={() => setModalOpen(true)}
-            >
-              Game Settings
-            </button>
+          <div className='relative max-w-md w-full p-8 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl'>
+            <h1 className='text-4xl font-bold text-center text-gray-800 mb-2'>
+              {yourName}
+            </h1>
+            <h2 className='text-xl text-center text-gray-600 mb-6'>
+              vs Computer
+            </h2>
+            <div className='flex flex-col gap-4'>
+              <button
+                className='w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold 
+                          hover:from-blue-600 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200
+                          shadow-lg hover:shadow-xl'
+                onClick={() => setInitial(false)}
+              >
+                Start Game
+              </button>
+              <button
+                className='w-full text-blue-600 hover:text-blue-700 font-medium'
+                onClick={() => setModalOpen(true)}
+              >
+                Game Settings
+              </button>
+            </div>
           </div>
           <Modal
             isOpen={modalOpen}
             onRequestClose={() => setModalOpen(false)}
-            className='fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50'
+            className='fixed inset-0 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm'
+            overlayClassName='fixed inset-0'
           >
-            <div className='bg-white p-8 rounded-lg'>
-              <h2 className='text-xl font-bold mb-4'>Login/Signup</h2>
+            <div className='bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl'>
+              <h2 className='text-2xl font-bold text-gray-800 mb-4'>
+                Game Settings
+              </h2>
               <button
-                className='bg-red-500 text-white px-6 py-2 rounded-lg'
+                className='w-full bg-red-500 text-white px-6 py-3 rounded-xl font-semibold
+                          hover:bg-red-600 transform hover:scale-105 transition-all duration-200'
                 onClick={() => setModalOpen(false)}
               >
-                Close Modal
+                Close Settings
               </button>
             </div>
           </Modal>
-        </>
+        </div>
       )}
 
       {!initial && step === 'select' && (
-        <div className='text-center'>
-          <h1 className='text-2xl font-bold mb-6'>Choose your move!</h1>
-          <div className='flex justify-center gap-8'>
+        <div className='min-h-screen flex flex-col items-center justify-center p-4'>
+          <div className='text-center mb-8'>
+            <h1 className='text-3xl md:text-4xl font-bold text-gray-800 mb-2'>
+              Choose your move!
+            </h1>
+            <p className='text-gray-600'>Rounds remaining: {counter}</p>
+          </div>
+          <div className='grid grid-cols-3 gap-4 md:gap-8 max-w-2xl w-full'>
             <Card
               elementName='Stone'
               elementImage={Stone}
@@ -139,32 +156,63 @@ const GameWithComputer = () => {
       )}
 
       {step === 'result' && (
-        <div className='text-center'>
-          <h1 className='text-xl font-bold mb-4'>Opponent's Selection</h1>
-          <Card
-            elementName='Opponent'
-            elementImage={NumberToSVG[computerSelection]}
-          />
-          <h2 className='text-2xl font-semibold mt-4'>
-            {resultOutputToTextFormate[selectionResult]}
-          </h2>
+        <div className='min-h-screen flex flex-col items-center justify-center p-4'>
+          <div className='text-center mb-8'>
+            <h1 className='text-2xl md:text-3xl font-bold text-gray-800 mb-4'>
+              Opponent's Selection
+            </h1>
+            <div className='animate-bounce'>
+              <Card
+                elementName='Opponent'
+                elementImage={NumberToSVG[computerSelection]}
+                selected={true}
+              />
+            </div>
+            <h2 className='text-2xl md:text-3xl font-semibold mt-6 text-gray-700'>
+              {resultOutputToTextFormate[selectionResult]}
+            </h2>
+          </div>
         </div>
       )}
 
       {step === 'gameOver' && (
-        <div className='text-center'>
-          <h1 className='text-4xl font-bold mb-4'>Game Over</h1>
-          <h2 className='text-2xl font-semibold mb-4'>{result.finalResult}</h2>
-          <p className='text-lg'>
-            Wins: {result.win}, Losses: {result.loose}, Draws: {result.draw}
-          </p>
-
-          <button
-            className='mt-6 bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600'
-            onClick={() => navigate('/')}
-          >
-            Play Again
-          </button>
+        <div className='min-h-screen flex flex-col items-center justify-center p-4'>
+          <div className='max-w-md w-full bg-white rounded-2xl p-8 shadow-xl text-center'>
+            <h1 className='text-4xl md:text-5xl font-bold text-gray-800 mb-4'>
+              Game Over
+            </h1>
+            <h2 className='text-2xl md:text-3xl font-semibold mb-6 text-blue-600'>
+              {result.finalResult}
+            </h2>
+            <div className='grid grid-cols-3 gap-4 mb-8'>
+              <div className='bg-green-100 p-4 rounded-xl'>
+                <p className='text-sm text-gray-600'>Wins</p>
+                <p className='text-2xl font-bold text-green-600'>
+                  {result.win}
+                </p>
+              </div>
+              <div className='bg-red-100 p-4 rounded-xl'>
+                <p className='text-sm text-gray-600'>Losses</p>
+                <p className='text-2xl font-bold text-red-600'>
+                  {result.loose}
+                </p>
+              </div>
+              <div className='bg-yellow-100 p-4 rounded-xl'>
+                <p className='text-sm text-gray-600'>Draws</p>
+                <p className='text-2xl font-bold text-yellow-600'>
+                  {result.draw}
+                </p>
+              </div>
+            </div>
+            <button
+              className='w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold
+                        hover:from-green-600 hover:to-emerald-700 transform hover:scale-105 transition-all duration-200
+                        shadow-lg hover:shadow-xl'
+              onClick={() => navigate('/')}
+            >
+              Play Again
+            </button>
+          </div>
         </div>
       )}
     </div>
