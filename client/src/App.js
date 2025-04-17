@@ -1,7 +1,6 @@
 import './App.css'
 import GameWithComputer from './pages/GameWithComputer/GameWithComputer'
 import GameWithFriend from './pages/GameWithFriend/GameWithFriend'
-import GameWithComputerSetting from './pages/components/GameWithComputerSetting'
 import Home from './pages/Home/Home'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useEffect, useState } from 'react'

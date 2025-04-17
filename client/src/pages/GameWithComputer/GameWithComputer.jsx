@@ -5,7 +5,6 @@ import Paper from '../../gameIcons/paper.svg'
 import Scissors from '../../gameIcons/scissors.svg'
 import { useNavigate } from 'react-router-dom'
 import {
-  NumberToOption,
   stonePaperScissor,
   OptionToNumber,
   resultOutputToTextFormate,
@@ -26,10 +25,9 @@ const GameWithComputer = () => {
   const [initial, setInitial] = useState(true)
   const [yourName, setYourName] = useState('')
   const [counter, setCounter] = useState(initialCount)
-  const [isGameOver, setIsGameOver] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
+  const [isGameOver, setIsGameOver] = useState(false)
 
-  const [yourSelection, setYourSelection] = useState(0)
   const [computerSelection, setComputerSelection] = useState(0)
   const [selectionResult, setSelectionResult] = useState(0)
   const [selectionResultArray, setSelectionResultArray] = useState([])
@@ -46,7 +44,6 @@ const GameWithComputer = () => {
 
   const handleSelection = selectedOption => {
     const computerSelected = Math.floor(Math.random() * 3) + 1
-    setYourSelection(OptionToNumber[selectedOption])
     setComputerSelection(computerSelected)
 
     const result = stonePaperScissor(

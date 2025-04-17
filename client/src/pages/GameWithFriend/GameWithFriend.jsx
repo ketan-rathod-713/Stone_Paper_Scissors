@@ -207,6 +207,12 @@ const GameWithFriend = () => {
     }
   }, [])
 
+  useEffect(() => {
+    if (gameState.opponentName && gameState.yourName) {
+      moveToThirdPage()
+    }
+  }, [gameState.opponentName, gameState.yourName])
+
   const createNewGame = () => {
     socket.emit('createNewGame', {
       yourName: gameState.yourName,
