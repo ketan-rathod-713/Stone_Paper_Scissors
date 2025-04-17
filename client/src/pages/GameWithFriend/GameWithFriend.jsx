@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react'
 import socketIO from 'socket.io-client'
 import AlertComponent from '../components/AlertComponent'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 // ALL ASSETS
 import BgImage from '../../backgroundImages/bg2.jpg'
@@ -48,7 +50,6 @@ const GameWithFriend = () => {
     opponentName: '',
     messageText: '',
     gameCounter: 10,
-    opponentSVG: NumberToSVG[5],
     yourScore: 0,
     opponentScore: 0,
     currentRound: 0
@@ -97,7 +98,7 @@ const GameWithFriend = () => {
     })
 
     socket.on('opponentSelected', () => {
-      setGameState(prev => ({ ...prev, opponentSVG: NumberToSVG[4] }))
+      toast.info(`${gameState.opponentName} has made their selection!`)
     })
 
     socket.on(
@@ -117,12 +118,11 @@ const GameWithFriend = () => {
           yourScore,
           opponentScore,
           currentRound,
-          opponentSVG: NumberToSVG[opponentSelection],
           yourName,
           opponentName
         }))
 
-        // Add result message to chat
+        // Show result in toast
         let resultMessage = ''
         if (result === 1) {
           resultMessage = `Round ${currentRound}: You won! You chose ${
@@ -141,16 +141,7 @@ const GameWithFriend = () => {
             NumberToSVG[yourSelection].split('/').pop().split('.')[0]
           }`
         }
-
-        setMessages(prev => [
-          ...prev,
-          {
-            userName: 'System',
-            messageText: resultMessage,
-            timeHours: new Date().getHours(),
-            timeMinutes: new Date().getMinutes()
-          }
-        ])
+        toast.info(resultMessage)
 
         // Reset selection after a delay
         setTimeout(() => {
@@ -171,12 +162,11 @@ const GameWithFriend = () => {
         opponentScore: isPlayer1 ? player2.score : player1.score
       }))
 
-      // Add game over message to chat
+      // Show game over message in toast
       let gameOverMessage = ''
       if (winner === 'draw') {
         gameOverMessage = 'Game Over: The match ended in a draw!'
       } else {
-        // Show the correct winner message based on player position
         if (isPlayer1) {
           gameOverMessage =
             winner === player1.name
@@ -189,34 +179,17 @@ const GameWithFriend = () => {
               : `Game Over: ${player1.name} won the game!`
         }
       }
-
-      setMessages(prev => [
-        ...prev,
-        {
-          userName: 'System',
-          messageText: gameOverMessage,
-          timeHours: new Date().getHours(),
-          timeMinutes: new Date().getMinutes()
-        }
-      ])
+      toast.success(gameOverMessage)
 
       moveToFifthPage()
     })
 
     socket.on('receiveMessage', message => {
-      setMessages(prev => [...prev, message])
+      toast.info(`${message.userName}: ${message.messageText}`)
     })
 
     socket.on('opponentLeft', () => {
-      setMessages(prev => [
-        ...prev,
-        {
-          userName: 'System',
-          messageText: 'Your opponent has left the game',
-          timeHours: new Date().getHours(),
-          timeMinutes: new Date().getMinutes()
-        }
-      ])
+      toast.error('Your opponent has left the game')
       setTimeout(() => window.location.reload(), 3000)
     })
 
@@ -478,7 +451,7 @@ const GameWithFriend = () => {
               </div>
             </div>
 
-            <div className='grid md:grid-cols-3 gap-6'>
+            <div className='grid md:grid-cols-2 gap-6'>
               <div className='bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl'>
                 <h2 className='text-2xl font-bold text-center text-gray-800 mb-6'>
                   Your Move
@@ -510,38 +483,9 @@ const GameWithFriend = () => {
 
               <div className='bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl'>
                 <div className='flex flex-col h-full'>
-                  <button
-                    className='bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-2 rounded-xl font-semibold 
-                              hover:from-blue-600 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200
-                              shadow-lg hover:shadow-xl mb-4'
-                    onClick={() => setIsChatOpen(!isChatOpen)}
-                  >
-                    {isChatOpen ? 'Hide Chat' : 'Show Chat'}
-                  </button>
-
-                  {isChatOpen && (
-                    <div className='flex-1 overflow-y-auto'>
-                      {messages.map((message, index) => (
-                        <div
-                          key={index}
-                          className='bg-blue-50 p-4 rounded-xl mb-4'
-                        >
-                          <p className='text-blue-600 font-semibold'>
-                            {message.userName}
-                          </p>
-                          <div className='flex justify-between items-center mt-2'>
-                            <p className='text-gray-700'>
-                              {message.messageText}
-                            </p>
-                            <p className='text-sm text-gray-500'>
-                              {message.timeHours}:{message.timeMinutes}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
+                  <h2 className='text-2xl font-bold text-center text-gray-800 mb-6'>
+                    Chat
+                  </h2>
                   <form onSubmit={sendMessage} className='mt-4'>
                     <div className='flex gap-2'>
                       <input
@@ -564,19 +508,6 @@ const GameWithFriend = () => {
                       </button>
                     </div>
                   </form>
-                </div>
-              </div>
-
-              <div className='bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl'>
-                <h2 className='text-2xl font-bold text-center text-gray-800 mb-6'>
-                  Opponent
-                </h2>
-                <div className='flex justify-center items-center h-full'>
-                  <img
-                    className='w-32 h-32 object-contain animate-pulse'
-                    src={gameState.opponentSVG}
-                    alt='Opponent'
-                  />
                 </div>
               </div>
             </div>
@@ -625,6 +556,8 @@ const GameWithFriend = () => {
           </div>
         </div>
       )}
+
+      <ToastContainer />
     </div>
   )
 }
